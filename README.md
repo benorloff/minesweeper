@@ -1,10 +1,17 @@
-# minesweeper
+# Minesweeper
+___
 
+## About
+___
+
+## Wireframe
+___
 
 ## Pseudocode
 ___
 
 ### Initiation
+___
 
 1. Randomly shuffle the deck
 2. Deal cards to the playing stacks.
@@ -14,6 +21,7 @@ ___
 3. Place the remaining cards face down in the deal deck
 
 ### Listen for card clicks
+___
 
 1. Add event listeners to listen for clicks on cards in the draw deck, playing stacks, or discard pile. 
 2. If the draw deck is clicked, move the top card to the discard pile and turn it face up.
@@ -25,5 +33,18 @@ ___
 ••* If it is not the last card in the stack, group it with all cards below it in that stack and determine if there is a valid location for that group of cards to be moved based on the value of the topmost card in the group.
 
 ### Game Reset
+___
 
 1. When the reset button is clicked, run the init function to remove all cards, shuffle them, and redeal.
+
+## Screenshots
+___
+
+## Technologies Used
+___
+
+## Getting Started
+___
+
+## Next Steps
+___
