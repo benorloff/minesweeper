@@ -96,10 +96,17 @@ const playAreaEl = document.getElementById('playArea');
 
 // Stats
 
-const timerNumEl = document.getElementById('timerNum');
+const timerHrsEl = document.getElementById('timerHrs');
+const timerMinsEl = document.getElementById('timerMins');
+const timerSecsEl = document.getElementById('timerSecs');
 const movesNumEl = document.getElementById('movesNum');
 const stockNumEl = document.getElementById('stockNum');
 
+// Timer Vars
+
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
 
 // DECLARE GLOBALLY SCOPED EVENT LISTENERS
 
@@ -124,8 +131,6 @@ function init() {
   console.log('The NEW GAME button was clicked');
 }
 
-// Timer Start/Stop Function
-
 // Button Functions
 
 function turnOne() {
@@ -141,7 +146,49 @@ function undo() {
 }
 
 function timerStartStop() {
-  console.log('The TIMER START/STOP button was clicked');
+  if (timerBtn.dataset.status === 'inactive') {
+    timerBtn.dataset.status = 'active';
+    timerBtn.classList.remove('start');
+    timerBtn.classList.add('stop');
+    timerBtn.innerText = 'Stop';
+    timerStart();
+  } else if (timerBtn.dataset.status === 'active') {
+    timerBtn.dataset.status = 'inactive';
+    timerBtn.classList.remove('stop');
+    timerBtn.classList.add('start');
+    timerBtn.innerText = 'Start';
+    clearTimeout(timeElapsed);
+  }
+}
+
+function timerStart() {
+  timeElapsed = setTimeout(function() {
+    seconds++;
+    if (seconds > 59) {
+      seconds = 0;
+      minutes++;
+      if (minutes > 59) {
+        minutes = 0;
+        hours++;
+        if (hours < 10) {
+          timerHrsEl.innerText = `0${hours}`
+        } else {
+          timerHrsEl.innerText = `${hours}`
+        };
+      };
+    };
+    if (minutes < 10) {
+      timerMinsEl.innerText = `0${minutes}`;
+    } else {
+      timerMinsEl.innerText = `${minutes}`;
+    }
+    if (seconds < 10) {
+      timerSecsEl.innerText = `0${seconds}`;
+    } else {
+      timerSecsEl.innerText = `${seconds}`;
+    }
+    timerStart();
+  }, 1000);
 }
 
 // Card Click Function

@@ -149,3 +149,11 @@ body {
     justify-content: center;
     gap: 25px;
 }
+
+.start {
+    content: 'start';
+}
+
+.stop {
+    content: 'stop';
+}
