@@ -13,9 +13,9 @@
     <div class="header">
         <div class="brand">Icon</div>
         <div class="controls">
-            <div class="dealNum">
-                <button id="dealOne" value="1">Turn 1</button>
-                <button id="dealThree" value="3">Turn 3</button>
+            <div class="turnNum">
+                <button id="turnOne" value="1">Turn 1</button>
+                <button id="turnThree" value="3">Turn 3</button>
             </div>
             <button id="undo">Undo</button>
             <button id="newGame">New Game</button>
@@ -39,9 +39,12 @@
     </div>
     <div class="footer">
         <div class="stats">
-            <div class="timeStat"></div>
-            <div class="movesStat"></div>
-            <div class="stockStat"></div>
+            <div class="timeStat">
+                <button class="timerStartStop" id="timer">Start</button>
+                <span id="timerElapsed">00:00</span>
+            </div>
+            <div class="movesStat">Moves: <span id="movesNum">0</span></div>
+            <div class="stockStat">Stock: <span id="stockNum">0</span></div>
         </div>
     </div>
 </body>

@@ -19,6 +19,8 @@ body {
     border: 3px solid red;
 }
 
+/* ---HEADER--- */
+
 .header {
     display: flex;
     flex-direction: row;
@@ -36,6 +38,8 @@ body {
     flex-grow: 1;
     justify-content: flex-end;
 }
+
+/* ---PLAY AREA--- */
 
 /* Configure the playArea grid container */
 
@@ -137,3 +141,11 @@ body {
     grid-column: 7 / 8;
 }
 
+/* FOOTER */
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 25px;
+}

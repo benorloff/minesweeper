@@ -66,3 +66,23 @@ function buildMasterDeck() {
 }
 
 renderNewShuffledDeck();
+
+// DECLARE GLOBALLY SCOPED VARIABLES
+
+// Buttons
+const turnOneBtn = document.getElementById('turnOne');
+const turnThreeBtn = document.getElementById('turnThree');
+const undoBtn = document.getElementById('undo');
+const newGameBtn = document.getElementById('newGame');
+const timerBtn = document.getElementById('timer');
+
+// DECLARE GLOBALLY SCOPED EVENT LISTENERS
+
+
+// INIT
+// Init() function starts a new game.
+// Generate a randomly shuffled deck.
+// Deal out cards to the play stacks.
+
+
+// TIMER
