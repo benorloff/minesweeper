@@ -74,15 +74,57 @@ const turnOneBtn = document.getElementById('turnOne');
 const turnThreeBtn = document.getElementById('turnThree');
 const undoBtn = document.getElementById('undo');
 const newGameBtn = document.getElementById('newGame');
-const timerBtn = document.getElementById('timer');
+const timerBtn = document.getElementById('timerBtn');
+
+// Play Area
+
+const playAreaEl = document.getElementById('playArea');
+
+// const deckEl = document.getElementById('deck');
+// const discardEl = document.getElementById('discard');
+// const aceZoneOneEl = document.getElementById('aceZoneOne');
+// const aceZoneTwoEl = document.getElementById('aceZoneTwo');
+// const aceZoneThreeEl = document.getElementById('aceZoneThree');
+// const aceZoneFourEl = document.getElementById('aceZoneFour');
+// const playStackOneEl = document.getElementById('playStackOne');
+// const playStackTwoEl = document.getElementById('playStackTwo');
+// const playStackThreeEl = document.getElementById('playStackThree');
+// const playStackFourEl = document.getElementById('playStackFour');
+// const playStackFiveEl = document.getElementById('playStackFive');
+// const playStackSixEl = document.getElementById('playStackSix');
+// const playStackSevenEl = document.getElementById('playStackSeven');
+
+// Stats
+
+const timerNumEl = document.getElementById('timerNum');
+const movesNumEl = document.getElementById('movesNum');
+const stockNumEl = document.getElementById('stockNum');
+
 
 // DECLARE GLOBALLY SCOPED EVENT LISTENERS
 
-const turnOneBtnClick = turnOneBtn.addEventListener('click', turnOne);
-const turnThreeBtnClick = turnThreeBtn.addEventListener('click', turnThree);
-const undoBtnClick = undoBtn.addEventListener('click', undo);
-const newGameBtnClick = newGameBtn.addEventListener('click', init);
-const timerBtnClick = timerBtn.addEventListener('click', timerStartStop);
+// Button click listeners
+const turnOneClick = turnOneBtn.addEventListener('click', turnOne);
+const turnThreeClick = turnThreeBtn.addEventListener('click', turnThree);
+const undoClick = undoBtn.addEventListener('click', undo);
+const newGameClick = newGameBtn.addEventListener('click', init);
+const timerClick = timerBtn.addEventListener('click', timerStartStop);
+
+// Play area click listeners
+const playAreaClick = playAreaEl.addEventListener('click', cardClick);
+
+// --- FUNCTIONS ---
+
+// INIT
+// Init() function starts a new game.
+// Generate a randomly shuffled deck.
+// Deal out cards to the play stacks.
+
+function init() {
+  console.log('The NEW GAME button was clicked');
+}
+
+// Timer Start/Stop Function
 
 // Button Functions
 
@@ -102,13 +144,10 @@ function timerStartStop() {
   console.log('The TIMER START/STOP button was clicked');
 }
 
-// INIT
-// Init() function starts a new game.
-// Generate a randomly shuffled deck.
-// Deal out cards to the play stacks.
+// Card Click Function
 
-function init() {
-  console.log('The NEW GAME button was clicked');
+function cardClick(e) {
+  if (e.target.id !== 'playArea') {
+    console.log(`${e.target.id}`)
+  } else {return;}
 }
-
-// TIMER

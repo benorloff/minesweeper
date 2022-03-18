@@ -21,10 +21,9 @@
             <button id="newGame">New Game</button>
         </div>
     </div>
-    <div class="playArea">
-        <div class="deck card xlarge back-red">deck</div>
-        <div class="discard card xlarge" id="discard</div>
-">discard</div>
+    <div class="playArea" id="playArea">
+        <div class="deck card xlarge back-red" id="deck">deck</div>
+        <div class="discard card xlarge" id="discard">discard</div>
         <div class="aceZoneOne card xlarge" id="aceZoneOne">aceZoneOne</div>
         <div class="aceZoneTwo card xlarge" id="aceZoneTwo">aceZoneTwo</div>
         <div class="aceZoneThree card xlarge" id="aceZoneThree">aceZoneThree</div>
@@ -40,7 +39,7 @@
     <div class="footer">
         <div class="stats">
             <div class="timeStat">
-                <button class="timerStartStop" id="timer">Start</button>
+                <button class="timerStartStop" id="timerBtn">Start</button>
                 <span id="timerElapsed">00:00</span>
             </div>
             <div class="movesStat">Moves: <span id="movesNum">0</span></div>
