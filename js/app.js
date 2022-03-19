@@ -212,18 +212,21 @@ function cardClick(e) {
 }
 
 function deckClick() {
-  console.log('The deck was clicked');
-  console.log('Starting Shuffled Deck:');
-  console.log(shuffledDeck);
-  discardDeck.unshift(shuffledDeck.pop());
-  console.log('New Discard Deck:')
-  console.log(discardDeck);
-  const lastClass = discardPileEl.classList[discardPileEl.classList.length - 1];
-  discardPileEl.classList.remove(lastClass);
-  discardPileEl.classList.add(`${discardDeck[0].face}`);
-  console.log('Ending Shuffled Deck:')
-  console.log(shuffledDeck);
-
+  if (shuffledDeck.length >= 1) {
+    console.log('The deck was clicked');
+    console.log('Starting Shuffled Deck:');
+    console.log(shuffledDeck);
+    const lastClass = discardPileEl.classList[discardPileEl.classList.length - 1];
+    discardDeck.unshift(shuffledDeck.pop());
+    discardPileEl.classList.remove(lastClass);
+    discardPileEl.classList.add(`${discardDeck[0].face}`);
+    console.log('New Discard Deck:')
+    console.log(discardDeck);
+    console.log('Ending Shuffled Deck:')
+    console.log(shuffledDeck);
+  } else {
+    masterDeckEl.classList.remove('back-red');
+  }
 }
 
 function discardClick() {
