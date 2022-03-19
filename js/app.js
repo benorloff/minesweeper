@@ -14,6 +14,7 @@ const timerBtn = document.getElementById('timerBtn');
 // Play Area
 const playAreaEl = document.getElementById('playArea');
 const masterDeckEl = document.getElementById('deck');
+const discardPileEl = document.getElementById('discard');
 
 // Stats
 const timerHrsEl = document.getElementById('timerHrs');
@@ -26,6 +27,9 @@ const stockNumEl = document.getElementById('stockNum');
 let hours = 0;
 let minutes = 0;
 let seconds = 0;
+
+// Turn Var
+let turnNum = 1;
 
 /*-----DECLARE GLOBALLY SCOPED EVENT LISTENERS-----*/
 
@@ -43,14 +47,19 @@ const playAreaClick = playAreaEl.addEventListener('click', cardClick);
 const masterDeck = buildMasterDeck();
 renderDeckInContainer(masterDeck, masterDeckEl);
 
+// Create a 'discard' deck to store card objects when they
+// they are turned from the shuffledDeck 
+const discardDeck = [];
+
 /*----- app's state (variables) -----*/
 let shuffledDeck;
 
 /*----- cached element references -----*/
 const shuffledContainer = document.getElementById('deck');
+const discardContainer = document.getElementById('discard');
 
 /*----- event listeners -----*/
-document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
+// document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
 
 /*----- functions -----*/
 function getNewShuffledDeck() {
@@ -204,6 +213,17 @@ function cardClick(e) {
 
 function deckClick() {
   console.log('The deck was clicked');
+  console.log('Starting Shuffled Deck:');
+  console.log(shuffledDeck);
+  discardDeck.unshift(shuffledDeck.pop());
+  console.log('New Discard Deck:')
+  console.log(discardDeck);
+  const lastClass = discardPileEl.classList[discardPileEl.classList.length - 1];
+  discardPileEl.classList.remove(lastClass);
+  discardPileEl.classList.add(`${discardDeck[0].face}`);
+  console.log('Ending Shuffled Deck:')
+  console.log(shuffledDeck);
+
 }
 
 function discardClick() {
