@@ -16,6 +16,33 @@ const playAreaEl = document.getElementById('playArea');
 const masterDeckEl = document.getElementById('deck');
 const discardPileEl = document.getElementById('discard');
 
+// Play Stacks
+const aceZoneOneEl = document.getElementById('aceZoneOne');
+const aceZoneTwoEl = document.getElementById('aceZoneTwo');
+const aceZoneThreeEl = document.getElementById('aceZoneThree');
+const aceZoneFourEl = document.getElementById('aceZoneFour');
+const playStackOneEl = document.getElementById('playStackOne');
+const playStackTwoEl = document.getElementById('playStackTwo');
+const playStackThreeEl = document.getElementById('playStackThree');
+const playStackFourEl = document.getElementById('playStackFour');
+const playStackFiveEl = document.getElementById('playStackFive');
+const playStackSixEl = document.getElementById('playStackSix');
+const playStackSevenEl = document.getElementById('playStackSeven');
+
+const playStackElArr = [
+  'aceZoneOneEl',
+  'aceZoneTwoEl',
+  'aceZoneThreeEl',
+  'aceZoneFourEl',
+  'playStackOneEl',
+  'playStackTwoEl',
+  'playStackThreeEl',
+  'playStackFourEl',
+  'playStackFiveEl',
+  'playStackSixEl',
+  'playStackSevenEl'
+]
+
 // Stats
 const timerHrsEl = document.getElementById('timerHrs');
 const timerMinsEl = document.getElementById('timerMins');
@@ -178,9 +205,20 @@ function dealDeck() {
 
 // Render the dealt cards in the playStacks
 
-function renderPlayStacks() {
-  
-}
+// function renderPlayStacks(card, playStackEl) {
+//   playStackEl.innerHTML = '';
+//   // Let's build the cards as a string of HTML
+//   let cardsHtml = '';
+//   cardsHtml += `<div class="card">5</div>`;
+//   // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
+//   // const cardsHtml = deck.reduce(function(html, card) {
+//   //   return html + `<div class="card ${card.face}"></div>`;
+//   // }, '');
+//   playStackEl.innerHTML = cardsHtml;
+//   console.log(card.face + playStackEl);
+// }
+
+// renderPlayStacks();
 
 // Button Functions
 
