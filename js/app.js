@@ -31,6 +31,22 @@ let seconds = 0;
 // Turn Var
 let turnNum = 1;
 
+// Card Stacks Object to store all played cards
+
+let cardStacks = {
+  aceZoneOne: [],
+  aceZoneTwo: [],
+  aceZoneThree: [],
+  aceZoneFour: [],
+  playStackOne: [],
+  playStackTwo: [],
+  playStackThree: [],
+  playStackFour: [],
+  playStackFive: [],
+  playStackSix: [],
+  playStackSeven: []
+}
+
 /*-----DECLARE GLOBALLY SCOPED EVENT LISTENERS-----*/
 
 // Button click listeners
@@ -103,8 +119,8 @@ function buildMasterDeck() {
       deck.push({
         // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
-        // Setting the 'value' property for game of blackjack, not war
-        value: Number(rank) || (rank === 'A' ? 11 : 10)
+        // Setting the 'value' property for game of solitaire
+        value: Number(rank) || (rank === 'A' ? 1 : (rank === 'J' ? 11 : (rank === 'Q' ? 12 : 13)))
       });
     });
   });
