@@ -31,22 +31,22 @@ let seconds = 0;
 // Turn Var
 let turnNum = 1;
 
-// Card Stacks Object to store all played cards
+// Card Stacks array to store all played cards
 // Initial deal is 28 cards
 
-let cardStacks = {
-  aceZoneOne: [],
-  aceZoneTwo: [],
-  aceZoneThree: [],
-  aceZoneFour: [],
-  playStackOne: [],
-  playStackTwo: [],
-  playStackThree: [],
-  playStackFour: [],
-  playStackFive: [],
-  playStackSix: [],
-  playStackSeven: []
-}
+let cardStacks = [
+  aceZoneOne = [],
+  aceZoneTwo = [],
+  aceZoneThree = [],
+  aceZoneFour = [],
+  playStackOne = [],
+  playStackTwo = [],
+  playStackThree = [],
+  playStackFour = [],
+  playStackFive = [],
+  playStackSix = [],
+  playStackSeven = []
+]
 
 /*-----DECLARE GLOBALLY SCOPED EVENT LISTENERS-----*/
 
@@ -144,12 +144,27 @@ function init() {
 }
 
 function dealDeck() {
+  let stackIdx = 4;
+  let startingIdx = 4;
+  console.log(shuffledDeck)
   shuffledDeck.forEach(card => {
-    if (shuffledDeck.indexOf(card) <= 27) {
-      console.log(shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1));
-      cardStacks.playStackOne.unshift(shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1));
-    }
+    let slice = shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1)
+    if (shuffledDeck.indexOf(card) <= 27 && stackIdx < 11) {
+      if (stackIdx < 10) {
+        cardStacks[stackIdx].unshift(slice);
+        stackIdx++;
+        console.log(`Stack IDX = ${stackIdx}`)
+      }
+      if (stackIdx === 10) {
+        cardStacks[stackIdx].unshift(slice);
+        startingIdx++;
+        stackIdx = startingIdx;
+        console.log(`Stack IDX = ${stackIdx}`)
+        console.log(`Starting IDX = ${startingIdx}`)
+      }
+    } else {return;}
   })
+  console.log(cardStacks);
 }
 
 // Button Functions
