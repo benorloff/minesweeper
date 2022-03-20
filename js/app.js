@@ -144,11 +144,16 @@ function init() {
 }
 
 function dealDeck() {
+  // Set the stackIdx to 4 so we don't deal to the ace zones
   let stackIdx = 4;
+  // Store the startingIdx. This will ++ when reaching the last playStack.
   let startingIdx = 4;
   console.log(shuffledDeck)
+  // Loop through shuffledDeck and deal to the stacks.
   shuffledDeck.forEach(card => {
+    // Declare the slice var
     let slice = shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1)
+    // Only deal the first 28 cards
     if (shuffledDeck.indexOf(card) <= 27 && stackIdx < 11) {
       if (stackIdx < 10) {
         cardStacks[stackIdx].unshift(slice);
@@ -158,13 +163,23 @@ function dealDeck() {
       if (stackIdx === 10) {
         cardStacks[stackIdx].unshift(slice);
         startingIdx++;
+        // Start next loop at subsequent stack
         stackIdx = startingIdx;
         console.log(`Stack IDX = ${stackIdx}`)
         console.log(`Starting IDX = ${startingIdx}`)
       }
     } else {return;}
   })
+  //Remove the 28 cards that were dealt from the deck
+  shuffledDeck.splice(0, 28);
   console.log(cardStacks);
+  console.log(shuffledDeck);
+}
+
+// Render the dealt cards in the playStacks
+
+function renderPlayStacks() {
+  
 }
 
 // Button Functions
