@@ -32,6 +32,7 @@ let seconds = 0;
 let turnNum = 1;
 
 // Card Stacks Object to store all played cards
+// Initial deal is 28 cards
 
 let cardStacks = {
   aceZoneOne: [],
@@ -138,7 +139,17 @@ renderNewShuffledDeck();
 
 function init() {
   renderNewShuffledDeck();
+  dealDeck();
   console.log('The NEW GAME button was clicked');
+}
+
+function dealDeck() {
+  shuffledDeck.forEach(card => {
+    if (shuffledDeck.indexOf(card) <= 27) {
+      console.log(shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1));
+      cardStacks.playStackOne.unshift(shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1));
+    }
+  })
 }
 
 // Button Functions
