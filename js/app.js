@@ -168,6 +168,7 @@ function init() {
   clearCardStacks();
   renderNewShuffledDeck();
   dealDeck();
+  timerStartStop();
   console.log('The NEW GAME button was clicked');
 }
 
