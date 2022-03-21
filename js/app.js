@@ -199,6 +199,7 @@ function dealDeck() {
   })
   //Remove the 28 cards that were dealt from the deck
   shuffledDeck.splice(0, 28);
+  updateStockCount();
   console.log(cardStacks);
   console.log(shuffledDeck);
 }
@@ -334,4 +335,8 @@ function aceZoneClick() {
 
 function playStacksClick() {
   console.log('One of the play stacks was clicked');
+}
+
+function updateStockCount() {
+  stockNumEl.innerText = shuffledDeck.length;
 }
