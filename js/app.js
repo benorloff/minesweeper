@@ -168,7 +168,7 @@ function init() {
   clearCardStacks();
   renderNewShuffledDeck();
   dealDeck();
-  timerStartStop();
+  timerReset();
   console.log('The NEW GAME button was clicked');
 }
 
@@ -293,6 +293,12 @@ function timerStop() {
   timerBtn.classList.add('start');
   timerBtn.innerText = 'Start';
   clearTimeout(timeElapsed);
+}
+
+function timerReset() {
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
 }
 
 // Card Click Function
