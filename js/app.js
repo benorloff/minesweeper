@@ -234,15 +234,18 @@ function renderPlayStacks() {
     console.log(stackIdx);
     let playStackEl = playStackElArr[stackIdx];
     stack.forEach(cards => {
+      let cardsHtml = '';
       cards.forEach(card => {
-        let cardsHtml = '';
-        playStackEl.innerHTML = '';
-        cardsHtml += `<div class="card ${card.face}"></div>`;
+        // playStackEl.innerHTML = cardsHtml;
+        // cardsHtml += `<div class="card ${card.face}"></div>`;
+        let newCardDiv = document.createElement('div');
+        newCardDiv.classList.add('card');
+        newCardDiv.classList.add(`${card.face}`);
+        playStackEl.append(newCardDiv);
         console.log(playStackEl);
         console.log(cardsHtml);
         console.log(card);
-        playStackEl.innerHTML = cardsHtml;
-        console.dir(playStackEl);
+        console.log(`cardsHtml is ${cardsHtml}`);
       })
     })
   })
