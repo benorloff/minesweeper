@@ -30,17 +30,17 @@ const playStackSixEl = document.getElementById('playStackSix');
 const playStackSevenEl = document.getElementById('playStackSeven');
 
 const playStackElArr = [
-  'aceZoneOneEl',
-  'aceZoneTwoEl',
-  'aceZoneThreeEl',
-  'aceZoneFourEl',
-  'playStackOneEl',
-  'playStackTwoEl',
-  'playStackThreeEl',
-  'playStackFourEl',
-  'playStackFiveEl',
-  'playStackSixEl',
-  'playStackSevenEl'
+  aceZoneOneEl,
+  aceZoneTwoEl,
+  aceZoneThreeEl,
+  aceZoneFourEl,
+  playStackOneEl,
+  playStackTwoEl,
+  playStackThreeEl,
+  playStackFourEl,
+  playStackFiveEl,
+  playStackSixEl,
+  playStackSevenEl
 ]
 
 // Stats
@@ -169,6 +169,7 @@ function init() {
   renderNewShuffledDeck();
   dealDeck();
   timerReset();
+  timerStartStop();
   console.log('The NEW GAME button was clicked');
 }
 
@@ -202,6 +203,7 @@ function dealDeck() {
   //Remove the 28 cards that were dealt from the deck
   shuffledDeck.splice(0, 28);
   updateStockCount();
+  renderPlayStacks();
   console.log(cardStacks);
   console.log(shuffledDeck);
 }
@@ -216,20 +218,35 @@ function clearCardStacks() {
 
 // Render the dealt cards in the playStacks
 
-// function renderPlayStacks(card, playStackEl) {
-//   playStackEl.innerHTML = '';
-//   // Let's build the cards as a string of HTML
-//   let cardsHtml = '';
-//   cardsHtml += `<div class="card">5</div>`;
-//   // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
-//   // const cardsHtml = deck.reduce(function(html, card) {
-//   //   return html + `<div class="card ${card.face}"></div>`;
-//   // }, '');
-//   playStackEl.innerHTML = cardsHtml;
-//   console.log(card.face + playStackEl);
-// }
-
-// renderPlayStacks();
+function renderPlayStacks() {
+  // playStackEl.innerHTML = '';
+  // // Let's build the cards as a string of HTML
+  // let cardsHtml = '';
+  // cardsHtml += `<div class="card">5</div>`;
+  // // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
+  // // const cardsHtml = deck.reduce(function(html, card) {
+  // //   return html + `<div class="card ${card.face}"></div>`;
+  // // }, '');
+  // playStackEl.innerHTML = cardsHtml;
+  // console.log(card.face + playStackEl);
+  cardStacks.forEach(stack => {
+    let stackIdx = cardStacks.indexOf(stack);
+    console.log(stackIdx);
+    let playStackEl = playStackElArr[stackIdx];
+    stack.forEach(cards => {
+      cards.forEach(card => {
+        let cardsHtml = '';
+        playStackEl.innerHTML = '';
+        cardsHtml += `<div class="card ${card.face}"></div>`;
+        console.log(playStackEl);
+        console.log(cardsHtml);
+        console.log(card);
+        playStackEl.innerHTML = cardsHtml;
+        console.dir(playStackEl);
+      })
+    })
+  })
+}
 
 // Button Functions
 
