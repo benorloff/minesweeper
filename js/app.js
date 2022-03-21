@@ -165,6 +165,7 @@ renderNewShuffledDeck();
 // Deal out cards to the play stacks.
 
 function init() {
+  clearCardStacks();
   renderNewShuffledDeck();
   dealDeck();
   console.log('The NEW GAME button was clicked');
@@ -202,6 +203,14 @@ function dealDeck() {
   updateStockCount();
   console.log(cardStacks);
   console.log(shuffledDeck);
+}
+
+// Clear card stacks on init
+
+function clearCardStacks() {
+  cardStacks.forEach(stack => {
+    stack.splice(0, stack.length);
+  })
 }
 
 // Render the dealt cards in the playStacks
