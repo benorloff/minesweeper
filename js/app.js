@@ -239,7 +239,7 @@ function renderPlayStacks() {
         // playStackEl.innerHTML = cardsHtml;
         // cardsHtml += `<div class="card ${card.face}"></div>`;
         let newCardDiv = document.createElement('div');
-        newCardDiv.classList.add('card');
+        newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
         newCardDiv.classList.add(`${card.face}`);
         playStackEl.append(newCardDiv);
         console.log(playStackEl);
