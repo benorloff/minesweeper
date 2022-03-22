@@ -30,6 +30,7 @@ const playStackSixEl = document.getElementById('playStackSix');
 const playStackSevenEl = document.getElementById('playStackSeven');
 
 const playStackElArr = [
+  discardPileEl,
   aceZoneOneEl,
   aceZoneTwoEl,
   aceZoneThreeEl,
@@ -62,6 +63,7 @@ let turnNum = 1;
 // Initial deal is 28 cards
 
 let cardStacks = [
+  discard = [],
   aceZoneOne = [],
   aceZoneTwo = [],
   aceZoneThree = [],
@@ -175,22 +177,22 @@ function init() {
 
 function dealDeck() {
   // Set the stackIdx to 4 so we don't deal to the ace zones
-  let stackIdx = 4;
+  let stackIdx = 5;
   // Store the startingIdx. This will ++ when reaching the last playStack.
-  let startingIdx = 4;
+  let startingIdx = 5;
   console.log(shuffledDeck)
   // Loop through shuffledDeck and deal to the stacks.
   shuffledDeck.forEach(card => {
     // Declare the slice var
     let slice = shuffledDeck.slice(shuffledDeck.indexOf(card), shuffledDeck.indexOf(card) + 1)
     // Only deal the first 28 cards
-    if (shuffledDeck.indexOf(card) <= 27 && stackIdx < 11) {
-      if (stackIdx < 10) {
+    if (shuffledDeck.indexOf(card) <= 27 && stackIdx < 12) {
+      if (stackIdx < 11) {
         cardStacks[stackIdx].unshift(slice);
         stackIdx++;
         console.log(`Stack IDX = ${stackIdx}`)
       }
-      if (stackIdx === 10) {
+      else if (stackIdx === 11) {
         cardStacks[stackIdx].unshift(slice);
         startingIdx++;
         // Start next loop at subsequent stack
@@ -219,16 +221,6 @@ function clearCardStacks() {
 // Render the dealt cards in the playStacks
 
 function renderPlayStacks() {
-  // playStackEl.innerHTML = '';
-  // // Let's build the cards as a string of HTML
-  // let cardsHtml = '';
-  // cardsHtml += `<div class="card">5</div>`;
-  // // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
-  // // const cardsHtml = deck.reduce(function(html, card) {
-  // //   return html + `<div class="card ${card.face}"></div>`;
-  // // }, '');
-  // playStackEl.innerHTML = cardsHtml;
-  // console.log(card.face + playStackEl);
   cardStacks.forEach(stack => {
     let stackIdx = cardStacks.indexOf(stack);
     console.log(stackIdx);
@@ -236,11 +228,13 @@ function renderPlayStacks() {
     stack.forEach(cards => {
       let cardsHtml = '';
       cards.forEach(card => {
-        // playStackEl.innerHTML = cardsHtml;
-        // cardsHtml += `<div class="card ${card.face}"></div>`;
         let newCardDiv = document.createElement('div');
         newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
         newCardDiv.classList.add(`${card.face}`);
+        // Only apply style to playStacks, not discard or ace zones
+        if (stackIdx > 4) {
+          newCardDiv.setAttribute('style', `top: ${stack.indexOf(cards) * 20}px`)
+        }
         playStackEl.append(newCardDiv);
         console.log(playStackEl);
         console.log(cardsHtml);
@@ -249,6 +243,13 @@ function renderPlayStacks() {
       })
     })
   })
+}
+
+function turnCards() {
+  let turn = shuffledDeck.slice(0, 1);
+  cardStacks[0].push(turn);
+  shuffledDeck.splice(0, 1);
+  renderPlayStacks();
 }
 
 // Button Functions
@@ -352,6 +353,7 @@ function deckClick() {
     discardDeck.unshift(shuffledDeck.pop());
     discardPileEl.classList.remove(lastClass);
     discardPileEl.classList.add(`${discardDeck[0].face}`);
+    turnCards();
     console.log('New Discard Deck:')
     console.log(discardDeck);
     console.log('Ending Shuffled Deck:')
@@ -362,6 +364,7 @@ function deckClick() {
 }
 
 function discardClick() {
+  turnCards();
   console.log('The discard was clicked');
 }
 

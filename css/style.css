@@ -164,8 +164,8 @@ body {
 }
 
 .cardInStack {
-    position: absolute;
-    display: block;
+    position: absolute !important;
+    display: block !important;
 }
 
 /* FOOTER */
