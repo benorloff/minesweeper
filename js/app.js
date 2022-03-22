@@ -258,16 +258,19 @@ function renderPlayStacks() {
   })
 }
 
-function renderDiscardPile() {
-
-}
-
-function turnCards() {
-  let turn = shuffledDeck.slice(0, 1);
-  cardStacks[0].push(turn);
-  shuffledDeck.splice(0, 1);
-  renderDiscardPile();
-}
+// function turnCards() {
+//   let turn = shuffledDeck.slice(0, 1);
+//   cardStacks[0].push(turn);
+//   shuffledDeck.splice(0, 1);
+//   console.log('discard is ' + shuffledDeck.splice(0, 1)[0].face)
+//   let cardFace = shuffledDeck.splice(0,1)[0].face;
+//   let newCardDiv = document.createElement('div');
+//   newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
+//   newCardDiv.classList.add(`${cardFace}`)
+//   newCardDiv.setAttribute('style', 'top: 0px;');
+//   newCardDiv.setAttribute('data-location', 'discard');
+//   discardPileEl.append(newCardDiv);
+// }
 
 // Button Functions
 
@@ -366,11 +369,13 @@ function deckClick() {
     console.log('The deck was clicked');
     console.log('Starting Shuffled Deck:');
     console.log(shuffledDeck);
-    const lastClass = discardPileEl.classList[discardPileEl.classList.length - 1];
     discardDeck.unshift(shuffledDeck.pop());
-    discardPileEl.classList.remove(lastClass);
-    discardPileEl.classList.add(`${discardDeck[0].face}`);
-    turnCards();
+    let newCardDiv = document.createElement('div');
+    newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
+    newCardDiv.classList.add(`${discardDeck[0].face}`)
+    newCardDiv.setAttribute('style', 'top: 0px;');
+    newCardDiv.setAttribute('data-location', 'discard');
+    discardPileEl.append(newCardDiv);
     console.log('New Discard Deck:')
     console.log(discardDeck);
     console.log('Ending Shuffled Deck:')
