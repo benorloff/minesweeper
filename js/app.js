@@ -151,6 +151,8 @@ function buildMasterDeck() {
         face: `${suit}${rank}`,
         // Setting color for the card
         color: `${suit}` === 'c' ? 'b' : `${suit}` === 's' ? 'b' : `${suit}` === 'h' ? 'r' : 'r',
+        // Setting the suit of the card
+        suit: `${suit}`,
         // Setting the 'value' property for game of solitaire
         value: Number(rank) || (rank === 'A' ? 1 : (rank === 'J' ? 11 : (rank === 'Q' ? 12 : 13)))
       });
@@ -173,7 +175,7 @@ function init() {
   dealDeck();
   timerReset();
   timerStartStop();
-  console.log('The NEW GAME button was clicked');
+  // console.log('The NEW GAME button was clicked');
 }
 
 function dealDeck() {
@@ -182,7 +184,7 @@ function dealDeck() {
   let stackIdx = 5;
   // Store the startingIdx. This will ++ when reaching the last playStack.
   let startingIdx = 5;
-  console.log(shuffledDeck)
+  // console.log(shuffledDeck)
   // Loop through shuffledDeck and deal to the stacks.
   shuffledDeck.forEach(card => {
     // Declare the slice var
@@ -192,15 +194,15 @@ function dealDeck() {
       if (stackIdx < 11) {
         cardStacks[stackIdx].unshift(slice);
         stackIdx++;
-        console.log(`Stack IDX = ${stackIdx}`)
+        // console.log(`Stack IDX = ${stackIdx}`)
       }
       else if (stackIdx === 11) {
         cardStacks[stackIdx].unshift(slice);
         startingIdx++;
         // Start next loop at subsequent stack
         stackIdx = startingIdx;
-        console.log(`Stack IDX = ${stackIdx}`)
-        console.log(`Starting IDX = ${startingIdx}`)
+        // console.log(`Stack IDX = ${stackIdx}`)
+        // console.log(`Starting IDX = ${startingIdx}`)
       }
     } else {return;}
   })
@@ -208,8 +210,8 @@ function dealDeck() {
   shuffledDeck.splice(0, 28);
   updateStockCount();
   renderPlayStacks();
-  console.log(cardStacks);
-  console.log(shuffledDeck);
+  // console.log(cardStacks);
+  // console.log(shuffledDeck);
 }
 
 // Clear card stacks on init
@@ -233,7 +235,7 @@ function clearCardStacks() {
 function renderPlayStacks() {
   cardStacks.forEach(stack => {
     let stackIdx = cardStacks.indexOf(stack);
-    console.log(stackIdx);
+    // console.log(stackIdx);
     let playStackEl = playStackElArr[stackIdx];
     stack.forEach(cards => {
       let cardsHtml = '';
@@ -247,12 +249,20 @@ function renderPlayStacks() {
           newCardDiv.setAttribute('style', `top: ${stack.indexOf(cards) * 20}px`)
           // Set data-location to playStacks
           newCardDiv.setAttribute('data-location', 'playStacks');
+          // Set data-value
+          newCardDiv.setAttribute('data-value', `${card.value}`);
+          // Set data-color
+          newCardDiv.setAttribute('data-color', `${card.color}`);
+          // Set data-suit
+          newCardDiv.setAttribute('data-suit', `${card.suit}`);
+          // Set data-face
+          newCardDiv.setAttribute('data-face', `${card.face}`)
         }
         playStackEl.append(newCardDiv);
-        console.log(playStackEl);
-        console.log(cardsHtml);
-        console.log(card);
-        console.log(`cardsHtml is ${cardsHtml}`);
+        // console.log(playStackEl);
+        // console.log(cardsHtml);
+        // console.log(card);
+        // console.log(`cardsHtml is ${cardsHtml}`);
       })
     })
   })
@@ -358,7 +368,7 @@ function cardClick(e) {
         aceZoneClick();
         break;
       case (e.target.dataset.location === 'playStacks'):
-        playStacksClick();
+        playStacksClick(e);
         break;
     }
   } else {return;}
@@ -393,8 +403,56 @@ function aceZoneClick() {
   console.log('One of the ace zones was clicked');
 }
 
-function playStacksClick() {
+function playStacksClick(e) {
   console.log('One of the play stacks was clicked');
+  console.log(e.target);
+  let color = e.target.dataset.color;
+  let value = e.target.dataset.value;
+  let suit = e.target.dataset.suit;
+  let face = e.target.dataset.face;
+  console.log(`Color: ${color} + Value: ${value} + Suit: ${suit}`);
+  //STEP 1: Only allow clicks on cards that are facing up
+  //STEP 2: First, check if the card clicked is the last in the stack
+  //// If it is, then first check if it can go in any of the ace zones
+  ////// If it can, then move the object AND the div to aceZone
+  ////// If it can't, check if it can go on any of the other play stacks
+  //////// If it can, then move the object AND the div to playStack
+  //////// It it can't, return.
+  ////STEP 3 If the card is not the last, it needs to be grouped with all below
+
+  // Check if the card clicked is the last in the stack
+  if (!e.target.nextSibling) {
+    // Check aceZones first to see if there's a match
+    cardStacks.forEach(stack => {
+      // Only check aceZones here
+      if (cardStacks.indexOf(stack) >= 1 && cardStacks.indexOf(stack) <= 4) {
+        // Check if there's a match for spades
+        console.log(stack.length);
+        if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 's') {
+          console.log('there is a match in the spade aceZone');
+          let cardObj = stack[0]
+          console.log(cardObj)
+          // Check if there's a match for hearts
+        } else if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 'h') {
+          console.log('there is a match in the heart aceZone');
+          let cardObj = stack[0]
+          console.log(cardObj)
+          // Check if there's a match for diamonds
+        } else if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 'd') {
+          console.log('there is a match in the diamond aceZone');
+          let cardObj = stack[0]
+          console.log(cardObj)
+          // Check if there's a match for clubs
+        } else if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 'c') {
+          console.log('there is a match in the club aceZone');
+          let cardObj = stack[0]
+          console.log(cardObj)
+        } else {return;}
+      }
+    })
+    console.log('This is the last card in the stack');
+  }
+
 }
 
 function updateStockCount() {

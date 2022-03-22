@@ -8,7 +8,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 90vh;
+    height: 100vh;
     width: 80vw;
     padding: 5vh 10vw 5vh 10vw;
     background-color: var(--dark-green);
