@@ -149,6 +149,8 @@ function buildMasterDeck() {
       deck.push({
         // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
+        // Setting color for the card
+        color: `${suit}` === 'c' ? 'b' : `${suit}` === 's' ? 'b' : `${suit}` === 'h' ? 'r' : 'r',
         // Setting the 'value' property for game of solitaire
         value: Number(rank) || (rank === 'A' ? 1 : (rank === 'J' ? 11 : (rank === 'Q' ? 12 : 13)))
       });
@@ -167,7 +169,6 @@ renderNewShuffledDeck();
 // Deal out cards to the play stacks.
 
 function init() {
-  clearCardStacks();
   renderNewShuffledDeck();
   dealDeck();
   timerReset();
@@ -176,6 +177,7 @@ function init() {
 }
 
 function dealDeck() {
+  clearCardStacks();
   // Set the stackIdx to 4 so we don't deal to the ace zones
   let stackIdx = 5;
   // Store the startingIdx. This will ++ when reaching the last playStack.
@@ -214,8 +216,16 @@ function dealDeck() {
 
 function clearCardStacks() {
   cardStacks.forEach(stack => {
+    let stackIdx = cardStacks.indexOf(stack);
+    let playStackEl = playStackElArr[stackIdx];
+    stack.forEach(cards => {
+      playStackEl.innerHTML = '';
+    })
+  })
+  cardStacks.forEach(stack => {
     stack.splice(0, stack.length);
   })
+
 }
 
 // Render the dealt cards in the playStacks
@@ -232,8 +242,11 @@ function renderPlayStacks() {
         newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
         newCardDiv.classList.add(`${card.face}`);
         // Only apply style to playStacks, not discard or ace zones
-        if (stackIdx > 4) {
+        if (stackIdx > 5) {
+          // Set top 20px below previous card
           newCardDiv.setAttribute('style', `top: ${stack.indexOf(cards) * 20}px`)
+          // Set data-location to playStacks
+          newCardDiv.setAttribute('data-location', 'playStacks');
         }
         playStackEl.append(newCardDiv);
         console.log(playStackEl);
@@ -245,11 +258,15 @@ function renderPlayStacks() {
   })
 }
 
+function renderDiscardPile() {
+
+}
+
 function turnCards() {
   let turn = shuffledDeck.slice(0, 1);
   cardStacks[0].push(turn);
   shuffledDeck.splice(0, 1);
-  renderPlayStacks();
+  renderDiscardPile();
 }
 
 // Button Functions
@@ -364,7 +381,6 @@ function deckClick() {
 }
 
 function discardClick() {
-  turnCards();
   console.log('The discard was clicked');
 }
 
