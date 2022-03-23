@@ -409,7 +409,7 @@ function playStacksClick(e) {
   let color = e.target.dataset.color;
   let value = e.target.dataset.value;
   let suit = e.target.dataset.suit;
-  let face = e.target.dataset.face;
+  // let face = e.target.dataset.face;
   console.log(`Color: ${color} + Value: ${value} + Suit: ${suit}`);
   //STEP 1: Only allow clicks on cards that are facing up
   //STEP 2: First, check if the card clicked is the last in the stack
@@ -422,34 +422,48 @@ function playStacksClick(e) {
 
   // Check if the card clicked is the last in the stack
   if (!e.target.nextSibling) {
-    // Check aceZones first to see if there's a match
-    cardStacks.forEach(stack => {
-      // Only check aceZones here
-      if (cardStacks.indexOf(stack) >= 1 && cardStacks.indexOf(stack) <= 4) {
-        // Check if there's a match for spades
-        console.log(stack.length);
-        if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 's') {
-          console.log('there is a match in the spade aceZone');
-          let cardObj = stack[0]
-          console.log(cardObj)
-          // Check if there's a match for hearts
-        } else if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 'h') {
-          console.log('there is a match in the heart aceZone');
-          let cardObj = stack[0]
-          console.log(cardObj)
-          // Check if there's a match for diamonds
-        } else if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 'd') {
-          console.log('there is a match in the diamond aceZone');
-          let cardObj = stack[0]
-          console.log(cardObj)
-          // Check if there's a match for clubs
-        } else if (e.target.dataset.value === `${stack.length + 1}` && e.target.dataset.suit === 'c') {
-          console.log('there is a match in the club aceZone');
-          let cardObj = stack[0]
-          console.log(cardObj)
-        } else {return;}
-      }
-    })
+    let parentId = e.target.parentElement.id;
+    let stackIdx = [
+      'discard',
+      'aceZoneOne',
+      'aceZoneTwo',
+      'aceZoneThree',
+      'aceZoneFour',
+      'playStackOne',
+      'playStackTwo',
+      'playStackThree',
+      'playStackFour',
+      'playStackFive',
+      'playStackSix',
+      'playStackSeven'
+    ]
+    console.log(parentId);
+    if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
+      e.target.setAttribute('style', 'top: 0px;');
+      aceZoneOneEl.append(e.target);
+      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+    } else if (e.target.dataset.suit === 'h' && cardStacks[2].length === e.target.dataset.value - 1) {
+      e.target.setAttribute('style', 'top: 0px;');
+      aceZoneTwoEl.append(e.target);
+      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+    } else if (e.target.dataset.suit === 'd' && cardStacks[3].length === e.target.dataset.value - 1) {
+      e.target.setAttribute('style', 'top: 0px;');
+      aceZoneThreeEl.append(e.target);
+      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+    } else if (e.target.dataset.suit === 'c' && cardStacks[4].length === e.target.dataset.value - 1) {
+      e.target.setAttribute('style', 'top: 0px;');
+      aceZoneFourEl.append(e.target);
+      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+    } else {return;}
+    // remove card from playStack
+    // let parentId = e.target.parentElement.id
+    // // let stack = `cardStacks.${parentId}`
+    // // let length = `cardStacks.${parentId}.length`
+    // console.log(parentId);
+    // console.log(stack);
+    // console.log(length);
+    // console.log(stack[length - 1][0]);
+    // console.log(stack[length - 1][0].pop());
     console.log('This is the last card in the stack');
   }
 
