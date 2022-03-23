@@ -441,19 +441,19 @@ function playStacksClick(e) {
     if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneOneEl.append(e.target);
-      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+      cardStacks[1].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else if (e.target.dataset.suit === 'h' && cardStacks[2].length === e.target.dataset.value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneTwoEl.append(e.target);
-      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+      cardStacks[2].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else if (e.target.dataset.suit === 'd' && cardStacks[3].length === e.target.dataset.value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneThreeEl.append(e.target);
-      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+      cardStacks[3].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else if (e.target.dataset.suit === 'c' && cardStacks[4].length === e.target.dataset.value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneFourEl.append(e.target);
-      cardStacks[`${stackIdx.indexOf(parentId)}`].pop();
+      cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else {return;}
     // remove card from playStack
     // let parentId = e.target.parentElement.id
