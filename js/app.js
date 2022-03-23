@@ -244,7 +244,7 @@ function renderPlayStacks() {
         newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
         newCardDiv.classList.add(`${card.face}`);
         // Only apply style to playStacks, not discard or ace zones
-        if (stackIdx > 5) {
+        if (stackIdx >= 5) {
           // Set top 20px below previous card
           newCardDiv.setAttribute('style', `top: ${stack.indexOf(cards) * 20}px`)
           // Set data-location to playStacks
@@ -455,15 +455,6 @@ function playStacksClick(e) {
       aceZoneFourEl.append(e.target);
       cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else {return;}
-    // remove card from playStack
-    // let parentId = e.target.parentElement.id
-    // // let stack = `cardStacks.${parentId}`
-    // // let length = `cardStacks.${parentId}.length`
-    // console.log(parentId);
-    // console.log(stack);
-    // console.log(length);
-    // console.log(stack[length - 1][0]);
-    // console.log(stack[length - 1][0].pop());
     console.log('This is the last card in the stack');
   }
 
