@@ -258,6 +258,34 @@ function renderPlayStacks() {
           // Set data-face
           newCardDiv.setAttribute('data-face', `${card.face}`)
         }
+        else if (stackIdx <= 4 && stackIdx > 0) {
+          // Set top 0px
+          newCardDiv.setAttribute('style', 'top: 0px')
+          // Set data-location to playStacks
+          newCardDiv.setAttribute('data-location', 'aceZones');
+          // Set data-value
+          newCardDiv.setAttribute('data-value', `${card.value}`);
+          // Set data-color
+          newCardDiv.setAttribute('data-color', `${card.color}`);
+          // Set data-suit
+          newCardDiv.setAttribute('data-suit', `${card.suit}`);
+          // Set data-face
+          newCardDiv.setAttribute('data-face', `${card.face}`)
+        }
+        else if (stackIdx === 0) {
+          // Set top 0px
+          newCardDiv.setAttribute('style', 'top: 0px')
+          // Set data-location to playStacks
+          newCardDiv.setAttribute('data-location', 'discard');
+          // Set data-value
+          newCardDiv.setAttribute('data-value', `${card.value}`);
+          // Set data-color
+          newCardDiv.setAttribute('data-color', `${card.color}`);
+          // Set data-suit
+          newCardDiv.setAttribute('data-suit', `${card.suit}`);
+          // Set data-face
+          newCardDiv.setAttribute('data-face', `${card.face}`)
+        }
         playStackEl.append(newCardDiv);
         // console.log(playStackEl);
         // console.log(cardsHtml);
@@ -361,7 +389,7 @@ function cardClick(e) {
       case (e.target.id === 'deck'):
         deckClick();
         break;
-      case (e.target.id === 'discard'):
+      case (e.target.parentElement.id === 'discard'):
         discardClick();
         break;
       case (e.target.dataset.location === 'aceZones'):
@@ -376,27 +404,23 @@ function cardClick(e) {
 
 function deckClick() {
   if (shuffledDeck.length >= 1) {
-    console.log('The deck was clicked');
-    console.log('Starting Shuffled Deck:');
-    console.log(shuffledDeck);
-    discardDeck.unshift(shuffledDeck.pop());
-    let newCardDiv = document.createElement('div');
-    newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
-    newCardDiv.classList.add(`${discardDeck[0].face}`)
-    newCardDiv.setAttribute('style', 'top: 0px;');
-    newCardDiv.setAttribute('data-location', 'discard');
-    discardPileEl.append(newCardDiv);
-    console.log('New Discard Deck:')
-    console.log(discardDeck);
-    console.log('Ending Shuffled Deck:')
-    console.log(shuffledDeck);
+    cardStacks[0].push([shuffledDeck.pop()]);
   } else {
     masterDeckEl.classList.remove('back-red');
   }
+  renderPlayStacks();
 }
 
 function discardClick() {
   console.log('The discard was clicked');
+  cardStacks.forEach(stack => {
+    if (stack.length > 0 && stack[stack.length - 1][0].value === cardStacks[0][cardStacks[0].length - 1].value + 1 && stack[stack.length - 1][0].color !== cardStacks[0][cardStacks[0].length - 1].color) {
+      stack.push(cardStacks[0].shift());
+      return;
+      // stack.push(discardDeck.unshift());
+    }
+  })
+  renderPlayStacks();
 }
 
 function aceZoneClick() {
@@ -409,6 +433,21 @@ function playStacksClick(e) {
   let color = e.target.dataset.color;
   let value = e.target.dataset.value;
   let suit = e.target.dataset.suit;
+  let parentId = e.target.parentElement.id;
+  let stackIdx = [
+    'discard',
+    'aceZoneOne',
+    'aceZoneTwo',
+    'aceZoneThree',
+    'aceZoneFour',
+    'playStackOne',
+    'playStackTwo',
+    'playStackThree',
+    'playStackFour',
+    'playStackFive',
+    'playStackSix',
+    'playStackSeven'
+  ]
   // let face = e.target.dataset.face;
   console.log(`Color: ${color} + Value: ${value} + Suit: ${suit}`);
   //STEP 1: Only allow clicks on cards that are facing up
@@ -422,21 +461,6 @@ function playStacksClick(e) {
 
   // Check if the card clicked is the last in the stack
   if (!e.target.nextSibling) {
-    let parentId = e.target.parentElement.id;
-    let stackIdx = [
-      'discard',
-      'aceZoneOne',
-      'aceZoneTwo',
-      'aceZoneThree',
-      'aceZoneFour',
-      'playStackOne',
-      'playStackTwo',
-      'playStackThree',
-      'playStackFour',
-      'playStackFive',
-      'playStackSix',
-      'playStackSeven'
-    ]
     console.log(parentId);
     if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
