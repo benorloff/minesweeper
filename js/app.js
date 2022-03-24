@@ -210,8 +210,6 @@ function dealDeck() {
   shuffledDeck.splice(0, 28);
   updateStockCount();
   renderPlayStacks();
-  // console.log(cardStacks);
-  // console.log(shuffledDeck);
 }
 
 // Clear card stacks on init
@@ -389,8 +387,8 @@ function cardClick(e) {
       case (e.target.id === 'deck'):
         deckClick();
         break;
-      case (e.target.parentElement.id === 'discard'):
-        discardClick();
+      case (e.target.dataset.location === 'discard' || e.target.dataset.location === 'playStacks'):
+        playStacksClick(e);
         break;
       case (e.target.dataset.location === 'aceZones'):
         aceZoneClick();
@@ -411,57 +409,50 @@ function deckClick() {
   renderPlayStacks();
 }
 
-function discardClick() {
-  console.log('The discard was clicked');
-  cardStacks.forEach(stack => {
-    if (stack.length > 0 && stack[stack.length - 1][0].value === cardStacks[0][cardStacks[0].length - 1].value + 1 && stack[stack.length - 1][0].color !== cardStacks[0][cardStacks[0].length - 1].color) {
-      stack.push(cardStacks[0].shift());
-      return;
-      // stack.push(discardDeck.unshift());
-    }
-  })
-  renderPlayStacks();
-}
+// function discardClick() {
+//   console.log('The discard was clicked');
+//   cardStacks.forEach(stack => {
+//     if (stack.length > 0 && stack[stack.length - 1][0].value === cardStacks[0][`${cardStacks[0].length - 1}`][0].value + 1 && stack[stack.length - 1].color !== cardStacks[0][`${cardStacks[0].length - 1}`][0].color) {
+//       stack.push(cardStacks[0].pop());
+//       return;
+//     }
+//   })
+//   renderPlayStacks();
+// }
 
 function aceZoneClick() {
   console.log('One of the ace zones was clicked');
 }
 
 function playStacksClick(e) {
-  console.log('One of the play stacks was clicked');
-  console.log(e.target);
   let color = e.target.dataset.color;
   let value = e.target.dataset.value;
   let suit = e.target.dataset.suit;
   let parentId = e.target.parentElement.id;
   let stackIdx = [
-    'discard',
-    'aceZoneOne',
-    'aceZoneTwo',
-    'aceZoneThree',
-    'aceZoneFour',
-    'playStackOne',
-    'playStackTwo',
-    'playStackThree',
-    'playStackFour',
-    'playStackFive',
-    'playStackSix',
-    'playStackSeven'
+  'discard',
+  'aceZoneOne',
+  'aceZoneTwo',
+  'aceZoneThree',
+  'aceZoneFour',
+  'playStackOne',
+  'playStackTwo',
+  'playStackThree',
+  'playStackFour',
+  'playStackFive',
+  'playStackSix',
+  'playStackSeven'
   ]
-  // let face = e.target.dataset.face;
+  console.log('One of the play stacks was clicked');
+  console.log(e.target);
   console.log(`Color: ${color} + Value: ${value} + Suit: ${suit}`);
-  //STEP 1: Only allow clicks on cards that are facing up
-  //STEP 2: First, check if the card clicked is the last in the stack
-  //// If it is, then first check if it can go in any of the ace zones
-  ////// If it can, then move the object AND the div to aceZone
-  ////// If it can't, check if it can go on any of the other play stacks
-  //////// If it can, then move the object AND the div to playStack
-  //////// It it can't, return.
-  ////STEP 3 If the card is not the last, it needs to be grouped with all below
-
-  // Check if the card clicked is the last in the stack
-  if (!e.target.nextSibling) {
-    console.log(parentId);
+  // If the card clicked is the last in the stack
+  if (!e.target.nextSibling) {lastCardClick(e)}
+  // If the card clicked is NOT the last in the stack
+  else if (e.target.nextSibling) {innerCardClick(e)}
+  function lastCardClick(e) {
+    console.log('a last card was clicked');
+    // First check if it can go to any of the aceZones
     if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneOneEl.append(e.target);
@@ -478,11 +469,65 @@ function playStacksClick(e) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneFourEl.append(e.target);
       cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-    } else {return;}
-    console.log('This is the last card in the stack');
+    }
+    // Check if it can go to any of the playStacks
+    cardStacks.forEach(stack => {
+      if (stack.length > 0) {
+        console.log('stack length is greater than 0')
+        console.log(Number(e.target.dataset.value) + 1);
+        if (stack.at(-1)[0].value === Number(e.target.dataset.value) + 1) {
+          console.log(e.target.dataset.value);
+          console.log('stack length is 1 greater than card value')
+          if (stack.at(-1)[0].color !== e.target.dataset.color) {
+            console.log('color is not the same')
+            stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+          }
+        }
+      } 
+    })
   }
-
+  function innerCardClick(e) {
+    console.log('an inner card was clicked');
+  }
 }
+
+// function lastCardClick(e) {
+//   // First check if it can go to any of the aceZones
+//   console.log('a last card was clicked');
+//   if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
+//     // e.target.setAttribute('style', 'top: 0px;');
+//     // aceZoneOneEl.append(e.target);
+//     cardStacks[1].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+//     renderPlayStacks();
+//   } else if (e.target.dataset.suit === 'h' && cardStacks[2].length === e.target.dataset.value - 1) {
+//     // e.target.setAttribute('style', 'top: 0px;');
+//     // aceZoneTwoEl.append(e.target);
+//     cardStacks[2].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+//     renderPlayStacks();
+//   } else if (e.target.dataset.suit === 'd' && cardStacks[3].length === e.target.dataset.value - 1) {
+//     // e.target.setAttribute('style', 'top: 0px;');
+//     // aceZoneThreeEl.append(e.target);
+//     cardStacks[3].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+//     renderPlayStacks();
+//   } else if (e.target.dataset.suit === 'c' && cardStacks[4].length === e.target.dataset.value - 1) {
+//     // e.target.setAttribute('style', 'top: 0px;');
+//     // aceZoneFourEl.append(e.target);
+//     cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+//     renderPlayStacks();
+//   }
+//   // Check if it can go to any of the playStacks
+//   cardStacks.forEach(stack => {
+//     if (stack.length > 0 && stack[stack.length - 1][0].value === cardStacks[0][`${cardStacks[0].length - 1}`][0].value + 1 && stack[stack.length - 1].color !== cardStacks[0][`${cardStacks[0].length - 1}`][0].color) {
+//       stack.push(cardStacks[0].pop());
+//       return;
+//     }
+//   })
+//   renderPlayStacks();
+// }
+
+// function innerCardClick(e) {
+//   console.log('an inner card was clicked');
+// }
 
 function updateStockCount() {
   stockNumEl.innerText = shuffledDeck.length;
