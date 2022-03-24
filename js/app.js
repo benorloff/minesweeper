@@ -231,6 +231,9 @@ function clearCardStacks() {
 // Render the dealt cards in the playStacks
 
 function renderPlayStacks() {
+  playStackElArr.forEach(El => {
+    El.innerHTML = '';
+  })
   cardStacks.forEach(stack => {
     let stackIdx = cardStacks.indexOf(stack);
     // console.log(stackIdx);
@@ -453,38 +456,37 @@ function playStacksClick(e) {
   function lastCardClick(e) {
     console.log('a last card was clicked');
     // First check if it can go to any of the aceZones
-    if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
+    if (suit === 's' && cardStacks[1].length === value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneOneEl.append(e.target);
       cardStacks[1].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-    } else if (e.target.dataset.suit === 'h' && cardStacks[2].length === e.target.dataset.value - 1) {
+    } else if (suit === 'h' && cardStacks[2].length === value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneTwoEl.append(e.target);
       cardStacks[2].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-    } else if (e.target.dataset.suit === 'd' && cardStacks[3].length === e.target.dataset.value - 1) {
+    } else if (suit === 'd' && cardStacks[3].length === value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneThreeEl.append(e.target);
       cardStacks[3].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-    } else if (e.target.dataset.suit === 'c' && cardStacks[4].length === e.target.dataset.value - 1) {
+    } else if (suit === 'c' && cardStacks[4].length === value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
       aceZoneFourEl.append(e.target);
       cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-    }
+    } else {
     // Check if it can go to any of the playStacks
     cardStacks.forEach(stack => {
-      if (stack.length > 0) {
+      if (stack.length > 0 && stack.at(-1)[0].value === Number(value) + 1 && stack.at(-1)[0].color !== color) {
         console.log('stack length is greater than 0')
-        console.log(Number(e.target.dataset.value) + 1);
-        if (stack.at(-1)[0].value === Number(e.target.dataset.value) + 1) {
-          console.log(e.target.dataset.value);
-          console.log('stack length is 1 greater than card value')
-          if (stack.at(-1)[0].color !== e.target.dataset.color) {
-            console.log('color is not the same')
-            stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-          }
-        }
-      } 
+        console.log(Number(value) + 1);
+        stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+        return;
+      } else if (cardStacks.indexOf(stack) >= 5 && stack.length === 0 && Number(value) === 13) {
+        console.log('a king was clicked')
+        stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+      }
     })
+  }
+    renderPlayStacks();
   }
   function innerCardClick(e) {
     console.log('an inner card was clicked');
