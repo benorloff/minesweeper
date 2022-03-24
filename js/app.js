@@ -537,19 +537,20 @@ function playStacksClick(e) {
       aceZoneFourEl.append(e.target);
       cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else {
-    // Check if it can go to any of the playStacks
-    cardStacks.forEach(stack => {
-      if (stack.length > 0 && stack.at(-1)[0].value === Number(value) + 1 && stack.at(-1)[0].color !== color) {
-        console.log('stack length is greater than 0')
-        console.log(Number(value) + 1);
-        stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-        return;
-      } else if (cardStacks.indexOf(stack) >= 5 && stack.length === 0 && Number(value) === 13) {
-        console.log('a king was clicked')
-        stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+        // Check if it can go to any of the playStacks
+        cardStacks.forEach(stack => {
+          if (stack.length > 0 && stack.at(-1)[0].value === Number(value) + 1 && stack.at(-1)[0].color !== color) {
+            console.log('stack length is greater than 0')
+            console.log(Number(value) + 1);
+            stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+            return;
+          } else if (cardStacks.indexOf(stack) >= 5 && stack.length === 0 && Number(value) === 13) {
+            console.log('a king was clicked')
+            stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+          }
+        })
       }
-    })
-  }
+    renderPlayStacks();
   }
   function innerCardClick(e) {
     console.log('an inner card was clicked');
@@ -573,8 +574,8 @@ function playStacksClick(e) {
         }
       }
     })
+    renderPlayStacks();
   }
-  renderPlayStacks();
 }
 
 // function lastCardClick(e) {
