@@ -51,6 +51,10 @@ const timerSecsEl = document.getElementById('timerSecs');
 const movesNumEl = document.getElementById('movesNum');
 const stockNumEl = document.getElementById('stockNum');
 
+// Move and stock count stats
+let moveNum = 0;
+let stockNum = 24;
+
 // Timer Vars
 let hours = 0;
 let minutes = 0;
@@ -465,10 +469,12 @@ function deckClick() {
     cardStacks[0].push([shuffledDeck.pop()]);
     console.log(masterDeckEl.lastChild)
     masterDeckEl.lastChild.remove();
+    updateMoveCount();
   } else if (shuffledDeck.length === 1) {
     shuffledDeck[shuffledDeck.length - 1].side = 'up';
     cardStacks[0].push([shuffledDeck.pop()]);
     masterDeckEl.classList.remove('back-red');
+    updateMoveCount();
   } 
   console.log(shuffledDeck.length)
   renderPlayStacks();
@@ -485,7 +491,7 @@ function replenishDeck() {
   masterDeckEl.childNodes.forEach(child => {
     child.dataset.side = 'down';
   })
-  
+  updateMoveCount();
 }
 
 function aceZoneClick() {
@@ -551,6 +557,7 @@ function playStacksClick(e) {
           }
         })
       }
+    updateMoveCount();
     renderPlayStacks();
   }
   function innerCardClick(e) {
@@ -575,10 +582,16 @@ function playStacksClick(e) {
         }
       }
     })
+    updateMoveCount();
     renderPlayStacks();
   }
 }
 
 function updateStockCount() {
   stockNumEl.innerText = `${shuffledDeck.length + cardStacks[0].length}`;
+}
+
+function updateMoveCount() {
+  moveNum++
+  movesNumEl.innerText = moveNum;
 }
