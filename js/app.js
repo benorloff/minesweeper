@@ -494,22 +494,19 @@ function playStacksClick(e) {
     // Check if it can go to any of the playStacks
     cardStacks.forEach(stack => {
       if (stack.length > 0 && stack.at(-1)[0].value === Number(value) + 1 && stack.at(-1)[0].color !== color) {
-        // console.log('stack length is greater than 0')
-        // console.log(Number(value) + 1);
-        // console.log(cardStacks[`${stackIdx.indexOf(parentId)}`]);
-        // console.log(Array.prototype.indexOf.call(e.target.parentNode.children, e.target));
-        // console.log(Array.from(e.target.parentNode.childNodes));
         parentNodeArr = Array.from(e.target.parentNode.childNodes);
         splicedArr = cardStacks[`${stackIdx.indexOf(parentId)}`].splice(parentNodeArr.indexOf(e.target));
-        console.log(parentNodeArr.indexOf(e.target));
-        console.log(splicedArr);
         for (i = 0; i < splicedArr.length; i++) {
           stack.push(splicedArr[i]);
         }
         return;
       } else if (cardStacks.indexOf(stack) >= 5 && stack.length === 0 && Number(value) === 13) {
         console.log('a king was clicked')
-        stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].splice(parentNodeArr.indexOf(e.target)));
+        parentNodeArr = Array.from(e.target.parentNode.childNodes);
+        splicedArr = cardStacks[`${stackIdx.indexOf(parentId)}`].splice(parentNodeArr.indexOf(e.target));
+        for (i = 0; i < splicedArr.length; i++) {
+          stack.push(splicedArr[i]);
+        }
       }
     })
   }
