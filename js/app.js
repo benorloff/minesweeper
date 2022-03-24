@@ -132,7 +132,7 @@ function renderDeckInContainer(deck, container) {
   // Let's build the cards as a string of HTML
   let cardsHtml = '';
   deck.forEach(function(card) {
-    cardsHtml += `<div class="card ${card.face}"></div>`;
+    cardsHtml += `<div class="card ${card.face} back-red" data-location="deck"></div>`;
   });
   // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
   // const cardsHtml = deck.reduce(function(html, card) {
@@ -210,6 +210,10 @@ function dealDeck() {
   })
   //Remove the 28 cards that were dealt from the deck
   shuffledDeck.splice(0, 28);
+  // Remove the 28 first children of MasterDeckEl
+  for (i = 0; i < 28; i++) {
+    masterDeckEl.firstChild.remove();
+  }
   updateStockCount();
   renderDeal();
 }
@@ -351,28 +355,10 @@ function renderPlayStacks() {
         }
         stack[stack.length - 1][0].side = 'up';
         playStackEl.append(newCardDiv);
-        // console.log(playStackEl);
-        // console.log(cardsHtml);
-        // console.log(card);
-        // console.log(`cardsHtml is ${cardsHtml}`);
       })
     })
   })
 }
-
-// function turnCards() {
-//   let turn = shuffledDeck.slice(0, 1);
-//   cardStacks[0].push(turn);
-//   shuffledDeck.splice(0, 1);
-//   console.log('discard is ' + shuffledDeck.splice(0, 1)[0].face)
-//   let cardFace = shuffledDeck.splice(0,1)[0].face;
-//   let newCardDiv = document.createElement('div');
-//   newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
-//   newCardDiv.classList.add(`${cardFace}`)
-//   newCardDiv.setAttribute('style', 'top: 0px;');
-//   newCardDiv.setAttribute('data-location', 'discard');
-//   discardPileEl.append(newCardDiv);
-// }
 
 // Button Functions
 
@@ -456,7 +442,7 @@ function cardClick(e) {
   if (e.target.id !== 'playArea') {
     console.log(`${e.target.id}`)
     switch (true) {
-      case (e.target.id === 'deck'):
+      case (e.target.dataset.location === 'deck'):
         deckClick();
         break;
       case (e.target.dataset.location === 'discard' || e.target.dataset.location === 'playStacks'):
@@ -469,6 +455,7 @@ function cardClick(e) {
         playStacksClick(e);
         break;
     }
+  updateStockCount();
   } else {return;}
 }
 
@@ -476,22 +463,30 @@ function deckClick() {
   if (shuffledDeck.length >= 1) {
     shuffledDeck[shuffledDeck.length - 1].side = 'up';
     cardStacks[0].push([shuffledDeck.pop()]);
-  } else {
+    console.log(masterDeckEl.lastChild)
+    masterDeckEl.lastChild.remove();
+  } else if (shuffledDeck.length === 1) {
+    shuffledDeck[shuffledDeck.length - 1].side = 'up';
+    cardStacks[0].push([shuffledDeck.pop()]);
     masterDeckEl.classList.remove('back-red');
-  }
+  } 
+  console.log(shuffledDeck.length)
   renderPlayStacks();
+  if (shuffledDeck.length === 0) {
+    // shuffledDeck.push(cardStacks[0].splice(0));
+    console.log('replenish the deck')
+    replenishDeck();
+  }
 }
 
-// function discardClick() {
-//   console.log('The discard was clicked');
-//   cardStacks.forEach(stack => {
-//     if (stack.length > 0 && stack[stack.length - 1][0].value === cardStacks[0][`${cardStacks[0].length - 1}`][0].value + 1 && stack[stack.length - 1].color !== cardStacks[0][`${cardStacks[0].length - 1}`][0].color) {
-//       stack.push(cardStacks[0].pop());
-//       return;
-//     }
-//   })
-//   renderPlayStacks();
-// }
+function replenishDeck() {
+  masterDeckEl.innerHTML = discardPileEl.innerHTML;
+  discardPileEl.innerHTML = '';
+  masterDeckEl.childNodes.forEach(child => {
+    child.dataset.side = 'down';
+  })
+  
+}
 
 function aceZoneClick() {
   console.log('One of the ace zones was clicked');
@@ -584,44 +579,6 @@ function playStacksClick(e) {
   }
 }
 
-// function lastCardClick(e) {
-//   // First check if it can go to any of the aceZones
-//   console.log('a last card was clicked');
-//   if (e.target.dataset.suit === 's' && cardStacks[1].length === e.target.dataset.value - 1) {
-//     // e.target.setAttribute('style', 'top: 0px;');
-//     // aceZoneOneEl.append(e.target);
-//     cardStacks[1].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-//     renderPlayStacks();
-//   } else if (e.target.dataset.suit === 'h' && cardStacks[2].length === e.target.dataset.value - 1) {
-//     // e.target.setAttribute('style', 'top: 0px;');
-//     // aceZoneTwoEl.append(e.target);
-//     cardStacks[2].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-//     renderPlayStacks();
-//   } else if (e.target.dataset.suit === 'd' && cardStacks[3].length === e.target.dataset.value - 1) {
-//     // e.target.setAttribute('style', 'top: 0px;');
-//     // aceZoneThreeEl.append(e.target);
-//     cardStacks[3].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-//     renderPlayStacks();
-//   } else if (e.target.dataset.suit === 'c' && cardStacks[4].length === e.target.dataset.value - 1) {
-//     // e.target.setAttribute('style', 'top: 0px;');
-//     // aceZoneFourEl.append(e.target);
-//     cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-//     renderPlayStacks();
-//   }
-//   // Check if it can go to any of the playStacks
-//   cardStacks.forEach(stack => {
-//     if (stack.length > 0 && stack[stack.length - 1][0].value === cardStacks[0][`${cardStacks[0].length - 1}`][0].value + 1 && stack[stack.length - 1].color !== cardStacks[0][`${cardStacks[0].length - 1}`][0].color) {
-//       stack.push(cardStacks[0].pop());
-//       return;
-//     }
-//   })
-//   renderPlayStacks();
-// }
-
-// function innerCardClick(e) {
-//   console.log('an inner card was clicked');
-// }
-
 function updateStockCount() {
-  stockNumEl.innerText = shuffledDeck.length;
+  stockNumEl.innerText = `${shuffledDeck.length + cardStacks[0].length}`;
 }
