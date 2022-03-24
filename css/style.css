@@ -81,6 +81,36 @@ body {
     border-radius: 5px;
 }
 
+.pile::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    font-size: 2em;
+    line-height: 1em;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    opacity: 0.25;
+    text-align: center;
+
+}
+
+.pile.spades::before {
+    content: '♠';
+}
+
+.pile.hearts::before {
+    content: '♥';
+}
+
+.pile.diamonds::before {
+    content: '♦';
+}
+
+.pile.clubs::before {
+    content: '♣';
+}
+
 /* Assign grid area names and locations */
 
 .deck {
