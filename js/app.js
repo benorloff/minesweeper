@@ -378,10 +378,16 @@ function renderPlayStacks() {
 
 function turnOne() {
   console.log('The TURN ONE button was clicked');
+  turnNum = 1;
+  turnOneBtn.classList.add('activeTurnBtn');
+  turnThreeBtn.classList.remove('activeTurnBtn');
 }
 
 function turnThree() {
   console.log('The TURN THREE button was clicked');
+  turnNum = 3;
+  turnThreeBtn.classList.add('activeTurnBtn');
+  turnOneBtn.classList.remove('activeTurnBtn');
 }
 
 function undo() {
