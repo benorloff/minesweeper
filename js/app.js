@@ -154,7 +154,9 @@ function buildMasterDeck() {
         // Setting the suit of the card
         suit: `${suit}`,
         // Setting the 'value' property for game of solitaire
-        value: Number(rank) || (rank === 'A' ? 1 : (rank === 'J' ? 11 : (rank === 'Q' ? 12 : 13)))
+        value: Number(rank) || (rank === 'A' ? 1 : (rank === 'J' ? 11 : (rank === 'Q' ? 12 : 13))),
+        // Setting which side of the card is displayed
+        side: 'down'
       });
     });
   });
@@ -209,7 +211,7 @@ function dealDeck() {
   //Remove the 28 cards that were dealt from the deck
   shuffledDeck.splice(0, 28);
   updateStockCount();
-  renderPlayStacks();
+  renderDeal();
 }
 
 // Clear card stacks on init
@@ -228,7 +230,55 @@ function clearCardStacks() {
 
 }
 
-// Render the dealt cards in the playStacks
+// Render the initial deal
+
+function renderDeal() {
+  playStackElArr.forEach(El => {
+    El.innerHTML = '';
+  })
+  cardStacks.forEach(stack => {
+    let stackIdx = cardStacks.indexOf(stack);
+    // console.log(stackIdx);
+    let playStackEl = playStackElArr[stackIdx];
+    stack.forEach(cards => {
+      let cardsHtml = '';
+      cards.forEach(card => {
+        let newCardDiv = document.createElement('div');
+        newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
+        // Set top 20px below previous card
+        newCardDiv.setAttribute('style', `top: ${stack.indexOf(cards) * 20}px`)
+        // Set data-location to playStacks
+        newCardDiv.setAttribute('data-location', 'playStacks');
+        // Set data-value
+        newCardDiv.setAttribute('data-value', `${card.value}`);
+        // Set data-color
+        newCardDiv.setAttribute('data-color', `${card.color}`);
+        // Set data-suit
+        newCardDiv.setAttribute('data-suit', `${card.suit}`);
+        // Set data-face
+        newCardDiv.setAttribute('data-face', `${card.face}`);
+        // Set data-side
+        newCardDiv.setAttribute('data-side', `${card.side}`);
+        if (stack.indexOf(cards) === stack.length - 1) {
+          card.side = 'up';
+          newCardDiv.setAttribute('data-side', 'up');
+        };
+        if (newCardDiv.dataset.side === 'down') {
+          newCardDiv.classList.add('back-red');
+        } else {
+          newCardDiv.classList.add(`${card.face}`);
+        }
+        playStackEl.append(newCardDiv);
+        // console.log(playStackEl);
+        // console.log(cardsHtml);
+        // console.log(card);
+        // console.log(`cardsHtml is ${cardsHtml}`);
+      })
+    })
+  })
+}
+
+// Render the cards in the playStacks
 
 function renderPlayStacks() {
   playStackElArr.forEach(El => {
@@ -243,7 +293,11 @@ function renderPlayStacks() {
       cards.forEach(card => {
         let newCardDiv = document.createElement('div');
         newCardDiv.classList.add('card', 'cardInStack', 'xlarge');
-        newCardDiv.classList.add(`${card.face}`);
+        if (card.side === 'up') {
+          newCardDiv.classList.add(`${card.face}`);
+        } else if (card.side === 'down') {
+          newCardDiv.classList.add('back-red');
+        }
         // Only apply style to playStacks, not discard or ace zones
         if (stackIdx >= 5) {
           // Set top 20px below previous card
@@ -258,6 +312,8 @@ function renderPlayStacks() {
           newCardDiv.setAttribute('data-suit', `${card.suit}`);
           // Set data-face
           newCardDiv.setAttribute('data-face', `${card.face}`)
+          // Set data-side
+          newCardDiv.setAttribute('data-side', `${card.side}`)
         }
         else if (stackIdx <= 4 && stackIdx > 0) {
           // Set top 0px
@@ -272,8 +328,11 @@ function renderPlayStacks() {
           newCardDiv.setAttribute('data-suit', `${card.suit}`);
           // Set data-face
           newCardDiv.setAttribute('data-face', `${card.face}`)
+          // Set data-side
+          newCardDiv.setAttribute('data-side', `${card.side}`)
         }
         else if (stackIdx === 0) {
+          card.side = 'up';
           // Set top 0px
           newCardDiv.setAttribute('style', 'top: 0px')
           // Set data-location to playStacks
@@ -286,7 +345,11 @@ function renderPlayStacks() {
           newCardDiv.setAttribute('data-suit', `${card.suit}`);
           // Set data-face
           newCardDiv.setAttribute('data-face', `${card.face}`)
+          // Set data-side
+          newCardDiv.setAttribute('data-side', `${card.side}`)
+          newCardDiv.classList.add(`${card.face}`)
         }
+        stack[stack.length - 1][0].side = 'up';
         playStackEl.append(newCardDiv);
         // console.log(playStackEl);
         // console.log(cardsHtml);
@@ -405,6 +468,7 @@ function cardClick(e) {
 
 function deckClick() {
   if (shuffledDeck.length >= 1) {
+    shuffledDeck[shuffledDeck.length - 1].side = 'up';
     cardStacks[0].push([shuffledDeck.pop()]);
   } else {
     masterDeckEl.classList.remove('back-red');
