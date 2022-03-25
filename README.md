@@ -13,6 +13,8 @@ Solitaire holds a special place in my heart as I have many fond memories of watc
 
 I hope that you enjoy playing this game as much as I enjoyed building it.
 
+[Click here to launch the game!](https://benorloff.github.io/solitaire/)
+
 ## Wireframe
 
 ![Solitaire App Wireframe](/img/Solitaire-Wireframe-v2.png)
