@@ -38,6 +38,7 @@ button {
     display: flex;
     flex-grow: 1;
     justify-content: flex-start;
+    color: #ffffff;
 }
 
 .controls {
@@ -295,18 +296,49 @@ button {
 
 /* FOOTER */
 
+.timeStat {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .stats {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     gap: 25px;
     font-size: 0.5em;
+    color: #ffffff;
 }
 
-.start {
-    content: 'start';
+.timerBtn {
+    border: 5px solid #ffffff;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background: none;
+    margin-right: 10px;
 }
 
-.stop {
-    content: 'stop';
+.start::before {
+    content: '‣';
+    color: #ffffff;
+    font-size: 4em;
+    line-height: 0.9em;
+    top: 0;
+    left: 0;
+    margin-left: -8px;
+    margin-top: -5px;
+}
+
+.stop::before {
+    content: '◼';
+    color: #ffffff;
+    font-size: 1.5em;
+    line-height: 0.9em;
+    top: 0;
+    left: 0;
+    margin-left: -8px;
 }

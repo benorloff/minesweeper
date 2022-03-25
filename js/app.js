@@ -396,7 +396,6 @@ function timerStart() {
   timerBtn.dataset.status = 'active';
   timerBtn.classList.remove('start');
   timerBtn.classList.add('stop');
-  timerBtn.innerText = 'Stop';
   timeElapsed = setTimeout(function() {
     seconds++;
     if (seconds > 59) {
@@ -430,7 +429,6 @@ function timerStop() {
   timerBtn.dataset.status = 'inactive';
   timerBtn.classList.remove('stop');
   timerBtn.classList.add('start');
-  timerBtn.innerText = 'Start';
   clearTimeout(timeElapsed);
 }
 
