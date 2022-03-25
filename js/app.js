@@ -416,7 +416,6 @@ function timerReset() {
 // Card Click Function
 function cardClick(e) {
   if (e.target.id !== 'playArea') {
-    console.log(`${e.target.id}`)
     switch (true) {
       case (e.target.dataset.location === 'deck'):
         deckClick();
@@ -437,7 +436,7 @@ function cardClick(e) {
 
 // Deck click function
 function deckClick() {
-  if (shuffledDeck.length >= 1) {
+  if (shuffledDeck.length > 1) {
     shuffledDeck[shuffledDeck.length - 1].side = 'up';
     cardStacks[0].push([shuffledDeck.pop()]);
     console.log(masterDeckEl.lastChild)
@@ -446,26 +445,31 @@ function deckClick() {
   } else if (shuffledDeck.length === 1) {
     shuffledDeck[shuffledDeck.length - 1].side = 'up';
     cardStacks[0].push([shuffledDeck.pop()]);
-    masterDeckEl.classList.remove('back-red');
+    console.log(masterDeckEl.lastChild)
+    masterDeckEl.lastChild.remove();
     updateMoveCount();
-  } 
-  console.log(shuffledDeck.length)
-  renderPlayStacks();
-  if (shuffledDeck.length === 0) {
-    // shuffledDeck.push(cardStacks[0].splice(0));
+  } else if (shuffledDeck.length === 0) {
     console.log('replenish the deck')
+    updateMoveCount();
     replenishDeck();
   }
+  console.log(shuffledDeck.length)
+  renderPlayStacks();
 }
 
 // Replenish deck function
 function replenishDeck() {
   masterDeckEl.innerHTML = discardPileEl.innerHTML;
-  discardPileEl.innerHTML = '';
-  masterDeckEl.childNodes.forEach(child => {
-    child.dataset.side = 'down';
+  masterDeckEl.childNodes.forEach(node => {
+    node.dataset.location = 'deck';
   })
-  updateMoveCount();
+  cardStacks[0].forEach(card => {
+    card[0].side = 'down';
+    shuffledDeck.unshift(card[0]);
+  })
+  cardStacks[0].splice(0);
+  discardPileEl.innerHTML = '';
+  // shuffledDeck.push(cardStacks[0].splice(0));
 }
 
 function aceZoneClick() {
