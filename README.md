@@ -55,6 +55,17 @@ Lastly, the bottom of the page will display some basic statistics, including tim
 
 ## Screenshots
 
+![Screenshot 1](../img/Screenshot1.png)
+
+The initial view before a game has been started.
+
+![Screenshot 2](../img/Screenshot2.png)
+
+The view immediately after a game has been started and the initial cards have been dealt.
+
+![Screenshot 3](../img/Screenshot3.png)
+
+During game play.
 
 ## Technologies Used
 
