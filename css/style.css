@@ -73,6 +73,7 @@ button {
 #undo {
     margin: 0 10px;
     border-radius: 5px;
+    display: none;
 }
 
 #newGame {
