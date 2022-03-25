@@ -339,6 +339,29 @@ function renderPlayStacks() {
   })
 }
 
+/*-----FORCE WINNER FOR PRESENTATION-----*/
+
+const easterEgg = document.querySelector('.brand > img');
+
+const easterEggClick = easterEgg.addEventListener('click', forceWinner);
+
+function forceWinner() {
+  console.log('easter egg was clicked')
+    cardStacks[1].push([{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}], [{face: 'sK', color: 'b', suit: 's', value: 13, side: 'up'}]);
+    cardStacks[2].push([{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}], [{face: 'hK', color: 'r', suit: 'h', value: 13, side: 'up'}]);
+    cardStacks[3].push([{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}], [{face: 'dK', color: 'r', suit: 'd', value: 13, side: 'up'}]);
+    cardStacks[4].push([{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}], [{face: 'cK', color: 'b', suit: 'c', value: 13, side: 'up'}]);
+    renderPlayStacks();
+    playStackOneEl.innerHTML = '';
+    playStackTwoEl.innerHTML = '';
+    playStackThreeEl.innerHTML = '';
+    playStackFourEl.innerHTML = '';
+    playStackFiveEl.innerHTML = '';
+    playStackSixEl.innerHTML = '';
+    playStackSevenEl.innerHTML = '';
+    checkWinner();
+  }
+
 // Button Functions
 
 function turnOne() {
