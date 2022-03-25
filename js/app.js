@@ -1,4 +1,4 @@
-/*-----GLOBALLY SCOPED VARIABLES-----*/
+/*-----GLOBAL VARIABLES-----*/
 
 // Card Val Arrays
 const suits = ['s', 'c', 'd', 'h'];
@@ -10,6 +10,9 @@ const turnThreeBtn = document.getElementById('turnThree');
 const undoBtn = document.getElementById('undo');
 const newGameBtn = document.getElementById('newGame');
 const timerBtn = document.getElementById('timerBtn');
+
+// Message
+const message = document.getElementById('message');
 
 // Play Area
 const playAreaEl = document.getElementById('playArea');
@@ -29,6 +32,7 @@ const playStackFiveEl = document.getElementById('playStackFive');
 const playStackSixEl = document.getElementById('playStackSix');
 const playStackSevenEl = document.getElementById('playStackSeven');
 
+// Play Stack Array
 const playStackElArr = [
   discardPileEl,
   aceZoneOneEl,
@@ -64,8 +68,6 @@ let seconds = 0;
 let turnNum = 1;
 
 // Card Stacks array to store all played cards
-// Initial deal is 28 cards
-
 let cardStacks = [
   discard = [],
   aceZoneOne = [],
@@ -81,7 +83,23 @@ let cardStacks = [
   playStackSeven = []
 ]
 
-/*-----DECLARE GLOBALLY SCOPED EVENT LISTENERS-----*/
+/*-----DECK VARIABLES-----*/
+
+// Create a 'discard' deck to store card objects when turned from shuffledDeck 
+const discardDeck = [];
+
+// Build a 'master' deck of 'card' objects used to create shuffled decks
+const masterDeck = buildMasterDeck();
+renderDeckInContainer(masterDeck, masterDeckEl);
+
+// Shuffled deck state variable
+let shuffledDeck;
+
+// Cached element references
+const shuffledContainer = document.getElementById('deck');
+const discardContainer = document.getElementById('discard');
+
+/*-----GLOBAL EVENT LISTENERS-----*/
 
 // Button click listeners
 const turnOneClick = turnOneBtn.addEventListener('click', turnOne);
@@ -93,25 +111,8 @@ const timerClick = timerBtn.addEventListener('click', timerStartStop);
 // Play area click listeners
 const playAreaClick = playAreaEl.addEventListener('click', cardClick);
 
-// Build a 'master' deck of 'card' objects used to create shuffled decks
-const masterDeck = buildMasterDeck();
-renderDeckInContainer(masterDeck, masterDeckEl);
+/*-----DECK FUNCTIONS-----*/
 
-// Create a 'discard' deck to store card objects when they
-// they are turned from the shuffledDeck 
-const discardDeck = [];
-
-/*----- app's state (variables) -----*/
-let shuffledDeck;
-
-/*----- cached element references -----*/
-const shuffledContainer = document.getElementById('deck');
-const discardContainer = document.getElementById('discard');
-
-/*----- event listeners -----*/
-// document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
-
-/*----- functions -----*/
 function getNewShuffledDeck() {
   // Create a copy of the masterDeck (leave masterDeck untouched!)
   const tempDeck = [...masterDeck];
@@ -138,10 +139,6 @@ function renderDeckInContainer(deck, container) {
   deck.forEach(function(card) {
     cardsHtml += `<div class="card ${card.face} back-red" data-location="deck"></div>`;
   });
-  // Or, use reduce to 'reduce' the array into a single thing - in this case a string of HTML markup 
-  // const cardsHtml = deck.reduce(function(html, card) {
-  //   return html + `<div class="card ${card.face}"></div>`;
-  // }, '');
   container.innerHTML = cardsHtml;
 }
 
@@ -169,19 +166,13 @@ function buildMasterDeck() {
 
 renderNewShuffledDeck();
 
-/*-----FUNCTIONS-----*/
-
-// INIT
-// Init() function starts a new game.
-// Generate a randomly shuffled deck.
-// Deal out cards to the play stacks.
+/*-----GAME FUNCTIONS-----*/
 
 function init() {
   renderNewShuffledDeck();
   dealDeck();
   timerReset();
   timerStartStop();
-  // console.log('The NEW GAME button was clicked');
 }
 
 function dealDeck() {
@@ -190,7 +181,6 @@ function dealDeck() {
   let stackIdx = 5;
   // Store the startingIdx. This will ++ when reaching the last playStack.
   let startingIdx = 5;
-  // console.log(shuffledDeck)
   // Loop through shuffledDeck and deal to the stacks.
   shuffledDeck.forEach(card => {
     // Declare the slice var
@@ -200,15 +190,12 @@ function dealDeck() {
       if (stackIdx < 11) {
         cardStacks[stackIdx].unshift(slice);
         stackIdx++;
-        // console.log(`Stack IDX = ${stackIdx}`)
       }
       else if (stackIdx === 11) {
         cardStacks[stackIdx].unshift(slice);
         startingIdx++;
         // Start next loop at subsequent stack
         stackIdx = startingIdx;
-        // console.log(`Stack IDX = ${stackIdx}`)
-        // console.log(`Starting IDX = ${startingIdx}`)
       }
     } else {return;}
   })
@@ -222,31 +209,25 @@ function dealDeck() {
   renderDeal();
 }
 
-// Clear card stacks on init
-
+// Clear card stacks before dealing cards
 function clearCardStacks() {
   cardStacks.forEach(stack => {
     let stackIdx = cardStacks.indexOf(stack);
     let playStackEl = playStackElArr[stackIdx];
-    stack.forEach(cards => {
-      playStackEl.innerHTML = '';
-    })
+    playStackEl.innerHTML = '';
   })
   cardStacks.forEach(stack => {
     stack.splice(0, stack.length);
   })
-
 }
 
 // Render the initial deal
-
 function renderDeal() {
   playStackElArr.forEach(El => {
     El.innerHTML = '';
   })
   cardStacks.forEach(stack => {
     let stackIdx = cardStacks.indexOf(stack);
-    // console.log(stackIdx);
     let playStackEl = playStackElArr[stackIdx];
     stack.forEach(cards => {
       let cardsHtml = '';
@@ -277,24 +258,18 @@ function renderDeal() {
           newCardDiv.classList.add(`${card.face}`);
         }
         playStackEl.append(newCardDiv);
-        // console.log(playStackEl);
-        // console.log(cardsHtml);
-        // console.log(card);
-        // console.log(`cardsHtml is ${cardsHtml}`);
       })
     })
   })
 }
 
 // Render the cards in the playStacks
-
 function renderPlayStacks() {
   playStackElArr.forEach(El => {
     El.innerHTML = '';
   })
   cardStacks.forEach(stack => {
     let stackIdx = cardStacks.indexOf(stack);
-    // console.log(stackIdx);
     let playStackEl = playStackElArr[stackIdx];
     stack.forEach(cards => {
       let cardsHtml = '';
@@ -439,7 +414,6 @@ function timerReset() {
 }
 
 // Card Click Function
-
 function cardClick(e) {
   if (e.target.id !== 'playArea') {
     console.log(`${e.target.id}`)
@@ -461,6 +435,7 @@ function cardClick(e) {
   } else {return;}
 }
 
+// Deck click function
 function deckClick() {
   if (shuffledDeck.length >= 1) {
     shuffledDeck[shuffledDeck.length - 1].side = 'up';
@@ -483,6 +458,7 @@ function deckClick() {
   }
 }
 
+// Replenish deck function
 function replenishDeck() {
   masterDeckEl.innerHTML = discardPileEl.innerHTML;
   discardPileEl.innerHTML = '';
@@ -592,4 +568,10 @@ function updateStockCount() {
 function updateMoveCount() {
   moveNum++
   movesNumEl.innerText = moveNum;
+}
+
+function checkWinner() {
+  if (cardStacks[1].length === 13 && cardStacks[2].length === 13 && cardStacks[3].length === 13 && cardStacks[4].length === 13) {
+    message.innerText = 'You won!';
+  }
 }
