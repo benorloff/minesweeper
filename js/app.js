@@ -495,15 +495,11 @@ function playStacksClick(e) {
   'playStackSix',
   'playStackSeven'
   ]
-  console.log('One of the play stacks was clicked');
-  console.log(e.target);
-  console.log(`Color: ${color} + Value: ${value} + Suit: ${suit}`);
   // If the card clicked is the last in the stack
   if (!e.target.nextSibling) {lastCardClick(e)}
   // If the card clicked is NOT the last in the stack
   else if (e.target.nextSibling) {innerCardClick(e)}
   function lastCardClick(e) {
-    console.log('a last card was clicked');
     // First check if it can go to any of the aceZones
     if (suit === 's' && cardStacks[1].length === value - 1) {
       e.target.setAttribute('style', 'top: 0px;');
@@ -523,26 +519,25 @@ function playStacksClick(e) {
       cardStacks[4].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
     } else {
         // Check if it can go to any of the playStacks
-        cardStacks.forEach(stack => {
-          if (stack.length > 0 && stack.at(-1)[0].value === Number(value) + 1 && stack.at(-1)[0].color !== color) {
-            console.log('stack length is greater than 0')
-            console.log(Number(value) + 1);
-            stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
-            return;
-          } else if (cardStacks.indexOf(stack) >= 5 && stack.length === 0 && Number(value) === 13) {
-            console.log('a king was clicked')
-            stack.push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+        for (i = 0; i < cardStacks.length; i++) {
+          if (cardStacks[i].length > 0 && cardStacks[i].at(-1)[0].value === Number(value) + 1 && cardStacks[i].at(-1)[0].color !== color) {
+            cardStacks[i].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+            break;
+          } else if (cardStacks.indexOf(cardStacks[i]) >= 5 && cardStacks[i].length === 0 && Number(value) === 13) {
+            cardStacks[i].push(cardStacks[`${stackIdx.indexOf(parentId)}`].pop());
+            break;
           }
-        })
+        }
       }
     updateMoveCount();
     renderPlayStacks();
+    checkWinner();
   }
   function innerCardClick(e) {
     console.log('an inner card was clicked');
     let parentNodeArr;
     let splicedArr;
-    // Check if it can go to any of the playStacks
+    // Check if it can go to any of the playStacks. THIS NEEDS TO BE CHANGED to FOR LOOP, NOT FOREACH LOOP.
     cardStacks.forEach(stack => {
       if (stack.length > 0 && stack.at(-1)[0].value === Number(value) + 1 && stack.at(-1)[0].color !== color) {
         parentNodeArr = Array.from(e.target.parentNode.childNodes);
@@ -562,6 +557,7 @@ function playStacksClick(e) {
     })
     updateMoveCount();
     renderPlayStacks();
+    checkWinner();
   }
 }
 
