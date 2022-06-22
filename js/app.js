@@ -598,3 +598,5 @@ function checkWinner() {
     message.innerText = 'You won!';
   }
 }
+
+init();
